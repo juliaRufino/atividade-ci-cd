@@ -1,0 +1,21 @@
+name: "CD"
+
+on:
+  push:
+    branches: 
+      - main
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Pull docker image
+        run: docker pull jujurufino/forum-kt:latest
+
+      - name: Stop Docker container
+        run: docker stop ci || true
+
+      - name: Remove Docker container
+        run: docker rm ci || true
+
+      - name: Run Docker container
+        run: docker run --name ci -d -p 8080:8080 jujurufino/forum-kt:latest
