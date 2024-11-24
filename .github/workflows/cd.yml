@@ -3,30 +3,22 @@ name: CD
 on:
   workflow_run:
     workflows:
-      
-CI # Nome exato do workflow CI
-  types:
-completed
+      - CI # Nome exato do workflow CI
+    types:
+      - completed
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
-      
-name: Pull Docker image
-      run: docker pull jujurufino/atv:latest
+      - name: Pull Docker image
+        run: docker pull jujurufino/atv:latest
 
-      
-name: Stop Docker container
-      run: docker stop ci || true
+      - name: Stop Docker container
+        run: docker stop ci || true
 
-      
-name: Remove Docker container
-      run: docker rm ci || true
+      - name: Remove Docker container
+        run: docker rm ci || true
 
-      
-name: Run Docker container
-      run: docker run --name ci -d -p 8080:8080 jujurufino/atv:latest
-
- 
- 
+      - name: Run Docker container
+        run: docker run --name ci -d -p 8080:8080 jujurufino/atv:latest
